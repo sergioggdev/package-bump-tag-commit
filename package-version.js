@@ -1,5 +1,4 @@
 const fs = require('fs');
-const toml = require('toml');
 const TOML = require('@ltd/j-toml');
 const semver = require('semver');
 
@@ -34,13 +33,13 @@ module.exports = class PackageVersion {
     return this;
   }
 
-  save(version) {
+  static save() {
     if (this.lang === 'js') {
-      this.file.version = version;
+      this.file.version = this.version;
       const file = JSON.stringify(this.file, null, 2);
       fs.writeFileSync(this.path, file + '\n');
     } else if (this.lang === 'rust') {
-      this.file.package.version = version;
+      this.file.package.version = this.version;
       const file = TOML.stringify(this.file, {
         newline: '\n',
         newlineAround: 'section',
