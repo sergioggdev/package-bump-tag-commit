@@ -3,22 +3,22 @@ description: 'Read version from package file, bump it, and create tag, commit'
 
 inputs:
   lang:
-    description: 'Who to greet'
-    required: true
+    description: 'The type of programing language'
+    required: false
     default: 'js'
   bumpLvl:
     description: 'Bump level major, minor, patch, hotfix'
     required: false
     default: 'patch'
   save:
-    description: 'You pass to true to save package file, tag and commit'
+    description: 'Boolean to indicate if persist the bumped version'
     required: false
     default: 'false'
   githubToken:
     description: 'Github token'
     required: false
   path:
-    description: 'Path to package file '
+    description: 'The path to the package file'
     required: false
 
 outputs:
