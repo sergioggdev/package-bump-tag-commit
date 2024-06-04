@@ -19,11 +19,8 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    const payload = github.context.payload;
-    const fullRepo = payload?.repository?.full_name;
-    console.log('payload', payload);
-    const pull_number = payload.issue?.number;
-    console.log('pull_number', pull_number);
+    console.log('github', github);
+    console.log('context', github.context);
 
     const { data: pull } = await this.octokit.rest.pulls.get({
       ...github.context.repo,
@@ -49,7 +46,7 @@ module.exports = class GitCmd {
 
     const ref = await this.octokit.rest.git.updateRef({
       ...github.context.repo,
-      ref,
+      ref: `heads/${develop}`,
       sha: newCommit.sha,
     });
     console.log('ref', ref);
