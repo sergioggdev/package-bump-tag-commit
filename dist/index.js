@@ -25,15 +25,7 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    console.log('github', github);
     console.log('context', github.context);
-
-    const { data: pull } = await this.octokit.rest.pulls.get({
-      ...github.context.repo,
-      pull_number,
-    });
-    console.log('pull', pull);
-    console.log('=====================================');
 
     const { data: commit } = await this.octokit.rest.git.getCommit({
       ...github.context.repo,
