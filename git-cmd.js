@@ -19,21 +19,34 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    const commit = await this.octokit.rest.git.getCommit({
+    const { data: pull } = await octokit.rest.pulls.get({ repo, owner, pull_number });
+    console.log(pull);
+    console.log('=====================================');
+
+    const { data: commit } = await this.octokit.rest.git.getCommit({
       ...github.context.repo,
       commit_sha: github.context.sha,
     });
-
     console.log(commit);
+    console.log('=====================================');
 
-    const commitRsp = await this.octokit.rest.git.createCommit({
+    const { data: newCommit } = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
-      tree: commit.data.tree.sha,
+      tree: commit.tree.sha,
     });
-    console.log(commitRsp);
+    console.log(newCommit);
+    console.log('=====================================');
 
-    if (commitRsp.status !== 201)
-      throw new Error(`Failed to create commit: ${JSON.stringify(commitRsp)}`);
+    const ref = await this.octokit.rest.git.updateRef({
+      ...github.context.repo,
+      ref,
+      sha: newCommit.sha,
+    });
+    console.log(ref);
+    console.log('=====================================');
+
+    if (newCommit.status !== 201)
+      throw new Error(`Failed to create commit: ${JSON.stringify(newCommit)}`);
   }
 };
