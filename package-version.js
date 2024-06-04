@@ -35,7 +35,6 @@ module.exports = class PackageVersion {
   }
 
   save() {
-    console.log('version', this.version);
     if (this.lang === 'js') {
       this.file.version = this.version;
       const file = JSON.stringify(this.file, null, 2);
@@ -46,7 +45,6 @@ module.exports = class PackageVersion {
         newline: '\n',
         newlineAround: 'section',
       });
-      console.log('file', this.file);
       fs.writeFileSync(this.path, file + '\n');
     }
   }

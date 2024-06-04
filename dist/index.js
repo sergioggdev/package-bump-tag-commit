@@ -26,17 +26,12 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    console.log('context', github.context);
-    console.log('context', github.context.repo);
-    const repo = `https://github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`;
     const branch = github.context.ref.split('/').slice(2).join('/');
     await exec('git', ['add', '-A']);
     await exec('git', ['config', '--local', 'user.name', 'Conecta Turismo CI']);
     await exec('git', ['config', '--local', 'user.email', 'info@conectaturismo.com']);
     await exec('git', ['commit', '--no-verify', '-m', 'CI: Publish new version']);
-    // await exec('git', ['remote', 'add', 'origin', repo]);
     await exec('git', ['push', 'origin', branch]);
-    console.log('Finish!!');
   }
 };
 
@@ -77,6 +72,7 @@ const run = async () => {
       const path = join(workspacePath, inputPath);
       const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
       core.setOutput('version', packageFile.version);
+      core.info(`New version: ${packageFile.version}`);
     } else {
       if (!ghToken) throw new Error('githubToken is required for save operation');
       const path = join(workspacePath, inputPath);
@@ -84,8 +80,9 @@ const run = async () => {
       const gitCmd = GitCmd.fromGhToken(ghToken);
 
       packageFile.save();
-      // await gitCmd.createTag(packageFile.version);
+      await gitCmd.createTag(packageFile.version);
       await gitCmd.commit();
+      core.info(`New version: ${packageFile.version}`);
     }
   } catch (error) {
     core.setFailed(error.message);
@@ -36093,7 +36090,6 @@ module.exports = class PackageVersion {
   }
 
   save() {
-    console.log('version', this.version);
     if (this.lang === 'js') {
       this.file.version = this.version;
       const file = JSON.stringify(this.file, null, 2);
@@ -36104,7 +36100,6 @@ module.exports = class PackageVersion {
         newline: '\n',
         newlineAround: 'section',
       });
-      console.log('file', this.file);
       fs.writeFileSync(this.path, file + '\n');
     }
   }
