@@ -62,7 +62,7 @@ const run = async () => {
     const bumpLvl = core.getInput('bumpLvl') || 'patch';
 
     const inputPath = core.getInput('path') || defaultPAckages[lang];
-    const saveOper = core.getInput('save') === 'true' || false;
+    const saveOper = core.getBooleanInput('save') || false;
     const ghToken = core.getInput('githubToken');
 
     if (!enabledLangs.includes(lang)) throw new Error(`Language ${lang} is not supported`);
@@ -73,7 +73,7 @@ const run = async () => {
     if (!saveOper) {
       const path = join(workspacePath, inputPath);
       const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);
-      core.exportVariable('version', Package.version);
+      core.setOutput('version', Package.version);
     } else {
       if (!ghToken) throw new Error('githubToken is required for save operation');
       const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);

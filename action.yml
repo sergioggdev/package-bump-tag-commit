@@ -8,7 +8,7 @@ inputs:
     default: 'js'
   bumpLvl:
     description: 'Bump level major, minor, patch, hotfix'
-    required: true
+    required: false
     default: 'patch'
   save:
     description: 'You pass to true to save package file, tag and commit'
