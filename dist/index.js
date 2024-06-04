@@ -34,7 +34,8 @@ module.exports = class GitCmd {
     await exec('git', ['config', '--local', 'user.email', 'info@conectaturismo.com']);
     await exec('git', ['commit', '--no-verify', '-m', 'CI: Publish new version']);
     // await exec('git', ['remote', 'add', 'origin', repo]);
-    await exec('git', ['push', 'origin']);
+    await exec('git', ['push', 'origin', github.context.ref.slice(2).join('/')]);
+    console.log('Finish!!');
   }
 };
 
