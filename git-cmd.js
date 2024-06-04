@@ -22,7 +22,7 @@ module.exports = class GitCmd {
     console.log(github.context);
     const {
       data: { tree },
-    } = await octokit.rest.git.getCommit({
+    } = await this.octokit.rest.git.getCommit({
       ...github.context.repo,
       commit_sha: github.context.sha,
     });

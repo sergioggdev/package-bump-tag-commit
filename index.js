@@ -33,14 +33,10 @@ const run = async () => {
       if (!ghToken) throw new Error('githubToken is required for save operation');
       const path = join(workspacePath, inputPath);
       const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
-      console.log('bump finished');
       const gitCmd = GitCmd.fromGhToken(ghToken);
 
-      console.log('before save');
       packageFile.save();
-      console.log('before createTag');
       await gitCmd.createTag(packageFile.version);
-      console.log('before commit');
       await gitCmd.commit();
     }
   } catch (error) {
