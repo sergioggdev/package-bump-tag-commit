@@ -29,7 +29,7 @@ module.exports = class GitCmd {
     const commitRsp = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
-      // object: github.context.sha,
+      tree: github.context.sha,
       // tree: github.context.payload.head_commit.tree_id,
     });
     if (commitRsp.status !== 201)
