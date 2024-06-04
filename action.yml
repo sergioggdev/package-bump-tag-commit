@@ -5,7 +5,7 @@ inputs:
   lang:
     description: 'Who to greet'
     required: true
-    default: 'World'
+    default: 'js'
   bumpLvl:
     description: 'Bump level major, minor, patch, hotfix'
     required: true
@@ -27,4 +27,4 @@ outputs:
 
 runs:
   using: 'node20'
-  main: 'index.js'
+  main: 'dist/index.js'

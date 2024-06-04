@@ -1,0 +1,29 @@
+name: Compile Development
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Github Project'
+        uses: actions/checkout@v4
+
+      - name: Read version and bump
+        uses: sergioggdev/package-bump-tag-commit@main
+        id: bump
+        with:
+          lang: 'rust'
+          # bump-level: ${{ github.event.inputs.versionLvl }}
+
+      - name: 'Logs'
+        run: |
+          echo "Version: ${{ steps.bump.outputs.version }}"
+
+      # - name: Read version and bump and save
+      #   uses: ./action.yml
+      #   with:
+      #     lang: 'rust'
+      #     save: true
+      #     githubToken: ${{ secrets.SV_GITHUB_ACTIONS }}

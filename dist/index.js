@@ -73,7 +73,7 @@ const run = async () => {
     if (!saveOper) {
       const path = join(workspacePath, inputPath);
       const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);
-      core.exportVariable(newVersion, Package.version);
+      core.exportVariable('version', Package.version);
     } else {
       if (!ghToken) throw new Error('githubToken is required for save operation');
       const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);
@@ -34849,10 +34849,11 @@ module.exports = class PackageVersion {
     }
   }
 
-  bump(lvl) {
+  bump(rawLvl) {
+    const lvl = rawLvl === 'hotfix' ? 'prerelease' : rawLvl;
     const version = semver.valid(this.version);
     if (!version) throw new Error(`Version ${version} is not valid semver`);
-    this.version = semver.inc(this.version, lvl);
+    this.version = semver.inc(this.version, lvl, 'hotfix');
     return this;
   }
 
