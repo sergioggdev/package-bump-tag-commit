@@ -38,7 +38,7 @@ module.exports = class GitCmd {
 
     const ref = await this.octokit.rest.git.updateRef({
       ...github.context.repo,
-      ref: `heads/develop`,
+      ref: github.context.ref,
       sha: newCommit.sha,
     });
     console.log('ref', ref);
