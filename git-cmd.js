@@ -19,7 +19,7 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    const { data: pull } = await octokit.rest.pulls.get({ repo, owner, pull_number });
+    const { data: pull } = await this.octokit.rest.pulls.get({ repo, owner, pull_number });
     console.log('pull', pull);
     console.log('=====================================');
 
