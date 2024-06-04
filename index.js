@@ -27,17 +27,17 @@ const run = async () => {
 
     if (!saveOper) {
       const path = join(workspacePath, inputPath);
-      const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);
-      core.setOutput('version', Package.version);
+      const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
+      core.setOutput('version', packageFile.version);
     } else {
       if (!ghToken) throw new Error('githubToken is required for save operation');
       const path = join(workspacePath, inputPath);
-      const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);
+      const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
       console.log('bump finished');
       const gitCmd = GitCmd.fromGhToken(ghToken);
 
       console.log('before save');
-      Package.save();
+      packageFile.save();
       console.log('before createTag');
       await gitCmd.createTag(path, lang);
       console.log('before commit');

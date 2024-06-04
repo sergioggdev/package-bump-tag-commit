@@ -34,7 +34,7 @@ module.exports = class PackageVersion {
     return this;
   }
 
-  static save() {
+  save() {
     if (this.lang === 'js') {
       this.file.version = this.version;
       const file = JSON.stringify(this.file, null, 2);
