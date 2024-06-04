@@ -1,4 +1,5 @@
 const github = require('@actions/github');
+const exec = require('@actions/exec');
 
 module.exports = class GitCmd {
   constructor(ghToken) {
@@ -19,41 +20,11 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    console.log('context', github.context);
-    console.log('=====================================');
-    const { data: ref } = await this.octokit.rest.git.getRef({
-      ...github.context.repo,
-      ref: github.context.ref.split('/').slice(1).join('/'),
-    });
-    console.log('ref', ref);
-    console.log('=====================================');
-
-    const { data: commit } = await this.octokit.rest.git.getCommit({
-      ...github.context.repo,
-      commit_sha: github.context.sha,
-    });
-    console.log('commit', commit);
-    console.log('=====================================');
-
-    const { data: newCommit } = await this.octokit.rest.git.createCommit({
-      ...github.context.repo,
-      message: 'CI: automating commit',
-      parent: commit.sha,
-      tree: commit.tree.sha,
-    });
-    console.log('newCommit', newCommit);
-    console.log('=====================================');
-    this.octokit.rest.git.createTree;
-    const { data: newRef } = await this.octokit.rest.git.updateRef({
-      ...github.context.repo,
-      ref: github.context.ref.split('/').slice(1).join('/'),
-
-      sha: newCommit.sha,
-    });
-    console.log('newRef', newRef);
-    console.log('=====================================');
-
-    if (newCommit.status !== 201)
-      throw new Error(`Failed to create commit: ${JSON.stringify(newCommit)}`);
+    core.console.log('context', github.context);
+    await exec('git', ['-C', workingDirectory, 'add', '-A']);
+    // await exec('git', [ '-C', workingDirectory, 'config', '--local', 'user.name', authorName ])
+    // await exec('git', [ '-C', workingDirectory, 'config', '--local', 'user.email', authorEmail ])
+    // await exec('git', [ '-C', workingDirectory, 'commit', '--no-verify', '-m', commitMessage ])
+    // await exec('git', [ '-C', workingDirectory, 'rev-parse', 'HEAD' ], { listeners: { stdout: buffer => sha += buffer.toString() }})
   }
 };
