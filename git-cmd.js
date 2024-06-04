@@ -21,7 +21,8 @@ module.exports = class GitCmd {
 
   async commit() {
     console.log('context', github.context);
-    await exec('git', ['-C', workingDirectory, 'add', '-A']);
+    console.log('context', github.context.repo);
+    await exec('git', ['add', '-A']);
     // await exec('git', [ '-C', workingDirectory, 'config', '--local', 'user.name', authorName ])
     // await exec('git', [ '-C', workingDirectory, 'config', '--local', 'user.email', authorEmail ])
     // await exec('git', [ '-C', workingDirectory, 'commit', '--no-verify', '-m', commitMessage ])
