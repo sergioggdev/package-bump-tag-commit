@@ -36,7 +36,7 @@ const run = async () => {
       const gitCmd = GitCmd.fromGhToken(ghToken);
 
       packageFile.save();
-      await gitCmd.createTag(packageFile.version);
+      // await gitCmd.createTag(packageFile.version);
       await gitCmd.commit();
     }
   } catch (error) {
