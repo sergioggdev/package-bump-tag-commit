@@ -76,6 +76,7 @@ const run = async () => {
       core.setOutput('version', Package.version);
     } else {
       if (!ghToken) throw new Error('githubToken is required for save operation');
+      const path = join(workspacePath, inputPath);
       const Package = PackageVersion.fromFile(path, lang).bump(bumpLvl);
       console.log('bump finished');
       const gitCmd = GitCmd.fromGhToken(ghToken);
