@@ -25,7 +25,7 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    console.log(JOSN.stringify(github.context));
+    console.log(JSON.stringify(github.context));
     const commitRsp = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
