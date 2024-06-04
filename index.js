@@ -39,9 +39,9 @@ const run = async () => {
       console.log('before save');
       packageFile.save();
       console.log('before createTag');
-      await gitCmd.createTag(path, lang);
+      await gitCmd.createTag(packageFile.version);
       console.log('before commit');
-      await gitCmd.commit(path, lang);
+      await gitCmd.commit();
     }
   } catch (error) {
     core.setFailed(error.message);
