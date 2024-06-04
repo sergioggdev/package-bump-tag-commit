@@ -19,19 +19,20 @@ module.exports = class GitCmd {
   }
 
   async commit() {
-    console.log(github.context);
-    const {
-      data: { tree },
-    } = await this.octokit.rest.git.getCommit({
+    const commit = await this.octokit.rest.git.getCommit({
       ...github.context.repo,
       commit_sha: github.context.sha,
     });
 
+    console.log(commit);
+
     const commitRsp = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
-      tree: tree.sha,
+      tree: commit.data.tree.sha,
     });
+    console.log(commitRsp);
+
     if (commitRsp.status !== 201)
       throw new Error(`Failed to create commit: ${JSON.stringify(commitRsp)}`);
   }
