@@ -20,14 +20,14 @@ module.exports = class GitCmd {
 
   async commit() {
     const { data: pull } = await octokit.rest.pulls.get({ repo, owner, pull_number });
-    console.log(pull);
+    console.log('pull', pull);
     console.log('=====================================');
 
     const { data: commit } = await this.octokit.rest.git.getCommit({
       ...github.context.repo,
       commit_sha: github.context.sha,
     });
-    console.log(commit);
+    console.log('commit', commit);
     console.log('=====================================');
 
     const { data: newCommit } = await this.octokit.rest.git.createCommit({
@@ -35,7 +35,7 @@ module.exports = class GitCmd {
       message: 'CI: automating commit',
       tree: commit.tree.sha,
     });
-    console.log(newCommit);
+    console.log('newCommit', newCommit);
     console.log('=====================================');
 
     const ref = await this.octokit.rest.git.updateRef({
@@ -43,7 +43,7 @@ module.exports = class GitCmd {
       ref,
       sha: newCommit.sha,
     });
-    console.log(ref);
+    console.log('ref', ref);
     console.log('=====================================');
 
     if (newCommit.status !== 201)
