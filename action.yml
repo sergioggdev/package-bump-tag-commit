@@ -15,7 +15,7 @@ inputs:
     required: false
     default: 'false'
   githubToken:
-    description: 'Github token ${{ secrets.GITHUB_TOKEN }}'
+    description: 'Github token'
     required: false
   path:
     description: 'Path to package file '
