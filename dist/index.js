@@ -25,10 +25,12 @@ module.exports = class GitCmd {
   }
 
   async commit() {
+    console.log(JOSN.stringify(github.context));
     const commitRsp = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
       // object: github.context.sha,
+      tree,
       // tree: github.context.payload.head_commit.tree_id,
     });
     if (commitRsp.status !== 201)
