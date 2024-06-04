@@ -16,13 +16,18 @@ module.exports = class GitCmd {
   }
 
   async createTag(version) {
-    const tagRsp = await this.octokit.rest.git.createTag({
+    const tagRsp = await this.octokit.rest.repos.createRelease({
       ...github.context.repo,
-      tag: `v${version}`,
-      message: 'CI: automating versioning',
-      object: github.context.sha,
-      type: 'commit',
+      tag_name: `v${version}`,
     });
+
+    // const tagRsp = await this.octokit.rest.git.createTag({
+    //   ...github.context.repo,
+    //   tag: `v${version}`,
+    //   message: 'CI: automating versioning',
+    //   object: github.context.sha,
+    //   type: 'commit',
+    // });
     if (tagRsp.status !== 201) throw new Error(`Failed to create tag: ${JSON.stringify(tagRsp)}`);
   }
 
