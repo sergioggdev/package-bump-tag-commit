@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Read version and bump
-        uses: sergioggdev/package-bump-tag-commit@develop
+        uses: sergioggdev/package-bump-tag-commit@feature/test
         id: bump
         with:
           lang: 'rust'

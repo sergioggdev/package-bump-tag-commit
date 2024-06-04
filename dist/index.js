@@ -5,7 +5,7 @@
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const github = __nccwpck_require__(6557);
-const exec = __nccwpck_require__(4261);
+const { exec } = __nccwpck_require__(4261);
 
 module.exports = class GitCmd {
   constructor(ghToken) {
@@ -28,11 +28,13 @@ module.exports = class GitCmd {
   async commit() {
     console.log('context', github.context);
     console.log('context', github.context.repo);
+    const repo = `https://github.com/${github.context.repo.owner}/${github.context.repo.repo}.git`;
     await exec('git', ['add', '-A']);
-    // await exec('git', [ '-C', workingDirectory, 'config', '--local', 'user.name', authorName ])
-    // await exec('git', [ '-C', workingDirectory, 'config', '--local', 'user.email', authorEmail ])
-    // await exec('git', [ '-C', workingDirectory, 'commit', '--no-verify', '-m', commitMessage ])
-    // await exec('git', [ '-C', workingDirectory, 'rev-parse', 'HEAD' ], { listeners: { stdout: buffer => sha += buffer.toString() }})
+    await exec('git', ['config', '--local', 'user.name', 'Conecta Turismo CI']);
+    await exec('git', ['config', '--local', 'user.email', 'info@conectaturismo.com']);
+    await exec('git', ['commit', '--no-verify', '-m', 'CI: Publish new version']);
+    await exec('git', ['remote', 'add', 'origin', repo]);
+    await exec('git', ['push', 'origin', github.context.ref.split('/').pop()]);
   }
 };
 
