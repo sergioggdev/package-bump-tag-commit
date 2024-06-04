@@ -17,7 +17,7 @@ module.exports = class GitCmd {
       object: github.context.sha,
       type: 'commit',
     });
-    if (tagRsp !== 201) throw new Error(tagRsp);
+    if (tagRsp !== 201) throw new Error(`Failed to create tag: ${JSON.stringify(tagRsp)}`);
   }
 
   async commit() {
@@ -27,6 +27,6 @@ module.exports = class GitCmd {
       object: github.context.sha,
       type: 'commit',
     });
-    if (tagRsp !== 201) throw new Error(`Failed to create commit: ${commitRsp}`);
+    if (commitRsp !== 201) throw new Error(`Failed to create commit: ${JSON.stringify(commitRsp)}`);
   }
 };
