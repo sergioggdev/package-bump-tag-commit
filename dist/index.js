@@ -55,7 +55,7 @@ const enabledbumpLvls = ['major', 'minor', 'patch', 'hotfix'];
 
 const run = async () => {
   try {
-    const lang = core.getInput('lang', { required: true });
+    const lang = core.getInput('lang') || 'js';
     const workspacePath = process.env.GITHUB_WORKSPACE || './';
     const bumpLvl = core.getInput('bumpLvl') || 'patch';
 
