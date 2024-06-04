@@ -1,13 +1,30 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Package version bump and tag|commit'
+description: 'Read version from package file, bump it, and create tag, commit'
+
 inputs:
-  who-to-greet: # id of input
+  lang:
     description: 'Who to greet'
     required: true
-    default: 'World'
+    default: 'js'
+  bumpLvl:
+    description: 'Bump level major, minor, patch, hotfix'
+    required: false
+    default: 'patch'
+  save:
+    description: 'You pass to true to save package file, tag and commit'
+    required: false
+    default: 'false'
+  githubToken:
+    description: 'Github token'
+    required: false
+  path:
+    description: 'Path to package file '
+    required: false
+
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  version:
+    description: 'The bumped version of the package'
+
 runs:
   using: 'node20'
-  main: 'index.js'
+  main: 'dist/index.js'
