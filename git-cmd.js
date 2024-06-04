@@ -20,6 +20,12 @@ module.exports = class GitCmd {
 
   async commit() {
     console.log('context', github.context);
+    const { data: ref } = await this.octokit.rest.git.getRef({
+      ...github.context.repo,
+      ref: github.context.ref.split('/').slice(1).join('/'),
+    });
+    console.log('ref', ref);
+    console.log('=====================================');
 
     const { data: commit } = await this.octokit.rest.git.getCommit({
       ...github.context.repo,
@@ -36,12 +42,12 @@ module.exports = class GitCmd {
     console.log('newCommit', newCommit);
     console.log('=====================================');
 
-    const ref = await this.octokit.rest.git.updateRef({
+    const { data: newRef } = await this.octokit.rest.git.updateRef({
       ...github.context.repo,
       ref: github.context.ref.split('/').slice(1).join('/'),
       sha: newCommit.sha,
     });
-    console.log('ref', ref);
+    console.log('newRef', newRef);
     console.log('=====================================');
 
     if (newCommit.status !== 201)
