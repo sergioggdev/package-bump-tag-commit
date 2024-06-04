@@ -29,7 +29,7 @@ module.exports = class GitCmd {
     const branch = github.context.ref.split('/').slice(2).join('/');
     await exec('git', ['add', '-A']);
     await exec('git', ['config', '--local', 'user.name', 'Conecta Turismo CI']);
-    await exec('git', ['config', '--local', 'user.email', 'info@conectaturismo.com']);
+    await exec('git', ['config', '--local', 'user.email', 'sergio.garcia.seo@gmail.com']);
     await exec('git', ['commit', '--no-verify', '-m', 'CI: Publish new version']);
     await exec('git', ['push', 'origin', branch]);
   }
