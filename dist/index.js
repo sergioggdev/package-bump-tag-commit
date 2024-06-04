@@ -26,6 +26,7 @@ module.exports = class GitCmd {
 
   async commit() {
     console.log('context', github.context);
+    console.log('=====================================');
     const { data: ref } = await this.octokit.rest.git.getRef({
       ...github.context.repo,
       ref: github.context.ref.split('/').slice(1).join('/'),
@@ -43,14 +44,16 @@ module.exports = class GitCmd {
     const { data: newCommit } = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
+      parent: commit.sha,
       tree: commit.tree.sha,
     });
     console.log('newCommit', newCommit);
     console.log('=====================================');
-
+    this.octokit.rest.git.createTree;
     const { data: newRef } = await this.octokit.rest.git.updateRef({
       ...github.context.repo,
       ref: github.context.ref.split('/').slice(1).join('/'),
+
       sha: newCommit.sha,
     });
     console.log('newRef', newRef);
