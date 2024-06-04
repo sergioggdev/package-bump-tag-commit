@@ -15,15 +15,10 @@ jobs:
         id: bump
         with:
           lang: 'rust'
+          save: true
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           # bump-level: ${{ github.event.inputs.versionLvl }}
 
       - name: 'Logs'
         run: |
           echo "Version: ${{ steps.bump.outputs.version }}"
-
-      # - name: Read version and bump and save
-      #   uses: ./action.yml
-      #   with:
-      #     lang: 'rust'
-      #     save: true
-      #     githubToken: ${{ secrets.SV_GITHUB_ACTIONS }}
