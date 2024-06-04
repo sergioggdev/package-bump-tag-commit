@@ -15,13 +15,6 @@ module.exports = class GitCmd {
       tag_name: `v${version}`,
     });
 
-    // const tagRsp = await this.octokit.rest.git.createTag({
-    //   ...github.context.repo,
-    //   tag: `v${version}`,
-    //   message: 'CI: automating versioning',
-    //   object: github.context.sha,
-    //   type: 'commit',
-    // });
     if (tagRsp.status !== 201) throw new Error(`Failed to create tag: ${JSON.stringify(tagRsp)}`);
   }
 
@@ -29,8 +22,8 @@ module.exports = class GitCmd {
     const commitRsp = await this.octokit.rest.git.createCommit({
       ...github.context.repo,
       message: 'CI: automating commit',
-      object: github.context.sha,
-      type: 'commit',
+      // object: github.context.sha,
+      // tree: github.context.payload.head_commit.tree_id,
     });
     if (commitRsp.status !== 201)
       throw new Error(`Failed to create commit: ${JSON.stringify(commitRsp)}`);
