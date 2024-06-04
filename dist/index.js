@@ -33,8 +33,8 @@ module.exports = class GitCmd {
     await exec('git', ['config', '--local', 'user.name', 'Conecta Turismo CI']);
     await exec('git', ['config', '--local', 'user.email', 'info@conectaturismo.com']);
     await exec('git', ['commit', '--no-verify', '-m', 'CI: Publish new version']);
-    await exec('git', ['remote', 'add', 'origin', repo]);
-    await exec('git', ['push', 'origin', github.context.ref.split('/').pop()]);
+    // await exec('git', ['remote', 'add', 'origin', repo]);
+    await exec('git', ['push']);
   }
 };
 
