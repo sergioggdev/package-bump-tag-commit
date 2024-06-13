@@ -25,22 +25,19 @@ const run = async () => {
     if (!enabledbumpLvls.includes(bumpLvl))
       throw new Error(`Bump level ${bumpLvl} is not supported`);
 
-    if (!saveOper) {
-      const path = join(workspacePath, inputPath);
-      const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
-      core.setOutput('version', packageFile.version);
-      core.info(`New version: ${packageFile.version}`);
-    } else {
-      if (!ghToken) throw new Error('githubToken is required for save operation');
-      const path = join(workspacePath, inputPath);
-      const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
-      const gitCmd = GitCmd.fromGhToken(ghToken);
+    const path = join(workspacePath, inputPath);
+    const packageFile = PackageVersion.fromFile(path, lang).bump(bumpLvl);
 
+    if (saveOper) {
+      if (!ghToken) throw new Error('githubToken is required for save operation');
+      const gitCmd = GitCmd.fromGhToken(ghToken);
       packageFile.save();
       await gitCmd.createTag(packageFile.version);
       await gitCmd.commit();
-      core.info(`New version: ${packageFile.version}`);
     }
+
+    core.info(`New version: ${packageFile.version}`);
+    core.setOutput('version', packageFile.version);
   } catch (error) {
     core.setFailed(error.message);
   }
