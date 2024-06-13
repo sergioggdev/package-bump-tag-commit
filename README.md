@@ -7,6 +7,7 @@ This action bump version from file, save, create release and publish
 ### `bumpLvl`
 
 The bumped semver version type. Default `"patch"`.
+options: `major | minor | patch | hotfix | none`
 
 ### `lang`
 

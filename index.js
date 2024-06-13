@@ -8,7 +8,7 @@ const GitCmd = require('./git-cmd');
 
 const enabledLangs = ['rust', 'js'];
 const defaultPAckages = { js: 'package.json', rust: 'Cargo.toml' };
-const enabledbumpLvls = ['major', 'minor', 'patch', 'hotfix'];
+const enabledbumpLvls = ['major', 'minor', 'patch', 'hotfix', 'none'];
 
 const run = async () => {
   try {

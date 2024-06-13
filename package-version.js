@@ -30,7 +30,9 @@ module.exports = class PackageVersion {
     const lvl = rawLvl === 'hotfix' ? 'prerelease' : rawLvl;
     const version = semver.valid(this.version);
     if (!version) throw new Error(`Version ${version} is not valid semver`);
-    this.version = semver.inc(this.version, lvl, 'hotfix');
+    if (rawLvl !== 'none') {
+      this.version = semver.inc(this.version, lvl, 'hotfix');
+    }
     return this;
   }
 
